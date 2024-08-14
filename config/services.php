@@ -30,5 +30,10 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'firebase' => [
+        'credentials' => [
+            'file' => storage_path('app/leaning-management-syste-163fb-firebase-adminsdk-njode-802e35f24a.json'),
+        ],
+    ],
 
 ];
