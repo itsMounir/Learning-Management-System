@@ -17,6 +17,9 @@ class LoginController extends Controller
             return response()->json(['message' => 'your provided credentials cannot be verified.'], 401);
         }
         $student = Auth::user();
+        if ($request->has('deviceToken')) {
+            $student->update(['deviceToken' => $request->deviceToken]);
+        }
 
         $token = $student->createToken('access_token')->plainTextToken;
 

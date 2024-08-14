@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\{
     DB
 };
 use App\Traits\Media;
+use app\Traits\FirebaseNotification;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\UpdateBalanceInWallet;
 class WalletsController extends Controller
 {
-    use Media;
+    use Media,FirebaseNotification;
 
 
 
@@ -28,6 +29,7 @@ class WalletsController extends Controller
         $user->wallet->update(['balance' => $newBalance]);
         Notification::route('mail', $user->email)
         ->notify(new UpdateBalanceInWallet($user, $request->balance,$newBalance));
+        $this->sendNotification($user->deviceToken,'Transfer balance',"Balance : $request->balance");
         return $this->sudResponse('balance has been sent to wallet');
 
     }

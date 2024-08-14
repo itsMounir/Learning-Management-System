@@ -28,10 +28,10 @@ use App\Notifications\CreateCourses;
 use App\Notifications\UpdateStatusForCourse;
 use App\Filters\CourseFilters;
 use Illuminate\Auth\Access\AuthorizationException;
-
+use App\Traits\FirebaseNotification;
 class CoursesController extends Controller
 {
-    use Media;
+    use Media,FirebaseNotification;
 
     /**
      * Create the controller instance.
@@ -79,6 +79,7 @@ class CoursesController extends Controller
             foreach($students as $student){
                 Notification::route('mail', $student->email)
                 ->notify(new CreateCourses($student,$course->name,$teacher));
+                $this->sendNotification($student->deviceToken,'New Course',"Name of Course : $request->name ");
             }
 
             return $this->sudResponse('Course created successfully', 201);
