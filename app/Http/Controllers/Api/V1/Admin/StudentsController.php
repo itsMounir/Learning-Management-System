@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\{
     DB
 };
 use App\Traits\Media;
+use App\Traits\FirebaseNotification;
 class StudentsController extends Controller
 {
-    use Media;
+    use Media,FirebaseNotification;
     /**
      * Display a listing of the resource.
      */
@@ -77,9 +78,10 @@ class StudentsController extends Controller
     public function update(UpdateStatus $request, User $student)
     {
        $student->update($request->all());
-       
+
        Notification::route('mail', $student->email)
        ->notify(new updateStatusForTeacherOrStident($student, $request->status));
+        $this->sendNotification($student->deviceToken,'Update status',"Your account status has become: $request->status");
         return $this->sudResponse('update status of student');
     }
 
