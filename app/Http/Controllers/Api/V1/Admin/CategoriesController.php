@@ -71,6 +71,7 @@ class CategoriesController extends Controller
             $teacher = Auth::user();
             $category->update($request->validated());
 
+
             if ($request->hasFile('image')) {
                 $request_image = $request->image;
                 $current_image = $category->image()->pluck('name')->first();
