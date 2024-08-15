@@ -79,7 +79,7 @@ class QuizzesController extends Controller
                 ]);
 
             if ($grade >= 60) {
-                $progress = $request->quiz_number / $quizzes_count * 100;
+                $progress = (int) ($request->quiz_number / $quizzes_count * 100);
                 $student->enrollments()
                     ->where('course_id', $course->id)
                     ->update(['progress' => $progress]);
@@ -167,7 +167,7 @@ class QuizzesController extends Controller
                 ->update(['grade' => $grade]);
 
             if ($grade >= 60) {
-                $progress = $request->quiz_number / $quizzes_count * 100;
+                $progress = (int) ($request->quiz_number / $quizzes_count * 100);
                 $student->enrollments()
                     ->where('course_id', $course->id)
                     ->update(['progress' => $progress]);
